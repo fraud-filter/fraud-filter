@@ -275,7 +275,8 @@ const server = createServer(async (req, res) => {
           "report_endpoint",
           "sync_interval_hours",
           "participate_in_network",
-          "auto_positive_signals",
+          "on_block",
+          "on_caution",
         ];
         for (const key of allowedKeys) {
           if (key in data) {

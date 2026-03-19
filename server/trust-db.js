@@ -340,7 +340,8 @@ const DEFAULT_CONFIG = {
   report_endpoint: "https://api.fraud-filter.net/reports",
   sync_interval_hours: 24,
   participate_in_network: false,
-  auto_positive_signals: false,
+  on_block: "block",    // "block" | "warn" — action when recommendation is block
+  on_caution: "warn",   // "warn" | "block" | "allow" — action when recommendation is caution
   install_id: null,
 };
 

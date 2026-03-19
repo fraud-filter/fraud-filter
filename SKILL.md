@@ -70,6 +70,42 @@ dashboard.sh status   # Check if running
 dashboard.sh url      # Print dashboard URL
 ```
 
+## Hook Setup
+
+fraud-filter uses two hooks to enforce checks automatically — no need to remember to run `check-endpoint.sh` manually.
+
+Add to your OpenClaw settings (`.openclaw/settings.json` or `~/.openclaw/openclaw.json`):
+
+```json
+{
+  "hooks": {
+    "PreToolUse": [{
+      "matcher": "",
+      "hooks": [{
+        "type": "command",
+        "command": "~/.openclaw/skills/fraud-filter/hooks/before-payment.sh"
+      }]
+    }],
+    "PostToolUse": [{
+      "matcher": "",
+      "hooks": [{
+        "type": "command",
+        "command": "~/.openclaw/skills/fraud-filter/hooks/after-payment.sh"
+      }]
+    }]
+  }
+}
+```
+
+**Policy settings** (configurable via dashboard Settings tab or `POST /api/config`):
+
+| Setting | Values | Default | Meaning |
+|---|---|---|---|
+| `on_block` | `block` \| `warn` | `block` | What to do when recommendation is `block` |
+| `on_caution` | `warn` \| `block` \| `allow` | `warn` | What to do when recommendation is `caution` |
+
+The hooks **fail open** — if fraud-filter encounters an internal error, the payment proceeds rather than being blocked. Unknown endpoints always proceed.
+
 ## Pre-Transaction Verification
 
 You **must** run `check-endpoint.sh` before executing any payment tool call. This is not optional.

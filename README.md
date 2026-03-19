@@ -84,6 +84,9 @@ fraud-filter/
 │   ├── reporter.js       # Signal construction, queue, submission
 │   ├── server.js         # HTTP server and API endpoints
 │   └── index.html        # Dashboard UI (no build step, no CDN)
+├── hooks/
+│   ├── before-payment.sh  # PreToolUse — checks endpoint before payment fires
+│   └── after-payment.sh   # PostToolUse — auto-reports empty/garbage responses
 ├── scripts/
 │   ├── check-endpoint.sh
 │   ├── report.sh
