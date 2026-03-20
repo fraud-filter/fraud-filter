@@ -34,11 +34,11 @@ elif [ -f "$CONFIG_PATH" ]; then
     import { readFileSync } from 'node:fs';
     try {
       const c = JSON.parse(readFileSync('${CONFIG_PATH}', 'utf-8'));
-      console.log(c.trust_db_url || 'https://cdn.spendlog.ai/trust.json');
-    } catch { console.log('https://cdn.spendlog.ai/trust.json'); }
+      console.log(c.trust_db_url || 'https://api.fraud-filter.com/trust.json');
+    } catch { console.log('https://api.fraud-filter.com/trust.json'); }
   ")
 else
-  CDN_URL="https://cdn.spendlog.ai/trust.json"
+  CDN_URL="https://api.fraud-filter.com/trust.json"
 fi
 
 # Check if we should skip (synced within last 24 hours)

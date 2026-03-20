@@ -7,7 +7,7 @@ metadata:
 
 # fraud-filter
 
-You have access to a community transaction outcome report network for agent payment endpoints. Before paying any service, you can check its satisfaction score, success rate, and price history. After transactions, you report outcomes back to the network — automatically for clear failures, with human notification either way.
+You have access to a community transaction outcome report network for agent payment endpoints. Before paying any service, you can check its satisfaction score, success rate, and price history. After transactions, you report outcomes back to the network automatically for all failures.
 
 ## Available Tools
 
@@ -70,32 +70,9 @@ dashboard.sh status   # Check if running
 dashboard.sh url      # Print dashboard URL
 ```
 
-## Hook Setup
+## Automatic Enforcement
 
-fraud-filter uses two hooks to enforce checks automatically — no need to remember to run `check-endpoint.sh` manually.
-
-Add to your OpenClaw settings (`.openclaw/settings.json` or `~/.openclaw/openclaw.json`):
-
-```json
-{
-  "hooks": {
-    "PreToolUse": [{
-      "matcher": "",
-      "hooks": [{
-        "type": "command",
-        "command": "~/.openclaw/skills/fraud-filter/hooks/before-payment.sh"
-      }]
-    }],
-    "PostToolUse": [{
-      "matcher": "",
-      "hooks": [{
-        "type": "command",
-        "command": "~/.openclaw/skills/fraud-filter/hooks/after-payment.sh"
-      }]
-    }]
-  }
-}
-```
+fraud-filter runs as an OpenClaw plugin. Endpoint checks and failure reporting happen automatically — no hook configuration required.
 
 **Policy settings** (configurable via dashboard Settings tab or `POST /api/config`):
 
@@ -104,7 +81,7 @@ Add to your OpenClaw settings (`.openclaw/settings.json` or `~/.openclaw/opencla
 | `on_block` | `block` \| `warn` | `block` | What to do when recommendation is `block` |
 | `on_caution` | `warn` \| `block` \| `allow` | `warn` | What to do when recommendation is `caution` |
 
-The hooks **fail open** — if fraud-filter encounters an internal error, the payment proceeds rather than being blocked. Unknown endpoints always proceed.
+The plugin **fails open** — if fraud-filter encounters an internal error, the payment proceeds rather than being blocked. Unknown endpoints always proceed.
 
 ## Pre-Transaction Verification
 
@@ -150,7 +127,7 @@ The outcome report database is a flat JSON file at `data/trust.json`. You can re
 - **Before any agent payment** → `check-endpoint.sh <url>` — required
 - **Price seems high** → `check-endpoint.sh <url> --price <amount>` to detect anomalies
 - **Transaction completed with poor outcome** → `report.sh <url> post_payment_failure <amount>` — automatic, notify user
-- **Transaction failed before payment** → ask user before reporting
+- **Transaction failed before payment** → report automatically
 - **User asks about outcome data** → `status.sh` for DB status, read `data/trust.json` directly for deeper questions, or `dashboard.sh start` for visual exploration
 - **Trust data seems stale** → `sync-trust-db.sh` to refresh
 

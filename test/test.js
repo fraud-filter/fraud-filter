@@ -302,11 +302,10 @@ describe("trust-db: lookup and check", () => {
     assert.equal(result.median_price, "0.03");
   });
 
-  it("checkEndpoint returns caution for unknown endpoint", () => {
+  it("checkEndpoint returns allow for unknown endpoint", () => {
     const result = checkEndpoint(TEST_URLS.new_ep, dbPath);
     assert.equal(result.known, false);
-    assert.equal(result.recommendation, "caution");
-    assert.ok(result.warnings.includes("unknown_endpoint"));
+    assert.equal(result.recommendation, "allow");
   });
 
   it("checkEndpoint returns block for bad endpoint", () => {
@@ -629,11 +628,11 @@ describe("server API", () => {
     assert.equal(data.recommendation, "allow");
   });
 
-  it("GET /api/check returns caution for unknown endpoint", async () => {
+  it("GET /api/check returns allow for unknown endpoint", async () => {
     const res = await fetch(`http://127.0.0.1:${port}/api/check?url=${encodeURIComponent(TEST_URLS.new_ep)}`);
     const data = await res.json();
     assert.equal(data.known, false);
-    assert.equal(data.recommendation, "caution");
+    assert.equal(data.recommendation, "allow");
   });
 
   it("GET /api/check requires url parameter", async () => {

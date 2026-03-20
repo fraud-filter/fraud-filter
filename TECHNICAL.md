@@ -158,7 +158,7 @@ All served on `127.0.0.1:18921` (configurable via `FRAUD_FILTER_PORT`).
 - Individual transaction details (exact amounts, timestamps, services, sessions)
 - Wallet addresses or balances
 - User identity or API keys
-- Agent-budget's transaction log
+- spend-ledger's transaction log
 - Full endpoint URLs (only SHA-256 hashes)
 
 ### What fraud-filter sends (only with opt-in)

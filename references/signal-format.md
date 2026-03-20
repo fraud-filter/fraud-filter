@@ -77,7 +77,7 @@ The hash is used as the key in `trust.json` and in all signals. The `url_hint` f
 
 ### Anonymous outcome signal
 
-Sent to `POST https://api.spendlog.ai/reports`:
+Sent to `POST https://api.fraud-filter.com/reports`:
 
 ```json
 {
@@ -223,7 +223,7 @@ Warning flags are derived from the endpoint data:
 | 70–100 | `allow` |
 | 40–69 | `caution` |
 | 0–39 | `block` |
-| unknown | `caution` (with `unknown_endpoint` warning) |
+| unknown | `allow` (absence of reports is not a risk signal) |
 
 ---
 
